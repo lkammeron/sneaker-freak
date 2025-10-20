@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('color');
             $table->string('image');
             $table->foreignId('users_id')->references('id')->on('users');
-            $table->foreignId('brands_id')->references('id')->on('brands');;
+            $table->foreignId('brands_id')->references('id')->on('brands');
             $table->timestamps();
         });
     }

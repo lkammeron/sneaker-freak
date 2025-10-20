@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SneakerController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/sneakers', SneakerController::class);
-Route::get('/sneaker/{$id}');
+
+Route::resource('/brands', BrandController::class);
 
 require __DIR__.'/auth.php';

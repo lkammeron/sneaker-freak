@@ -1,16 +1,17 @@
-<h1>Edit a Sneaker Post</h1>
-<form method="post" action="{{route('sneakers.update')}}">
+<h1>Edit: {{$sneaker->name}}</h1>
+<form method="post" action="{{route('sneakers.update', $sneaker->id)}}">
     @csrf
+    @method('PUT')
     <div>
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" value="{{ old('name') }}"/>
+        <input type="text" id="name" name="name" value="{{ $sneaker->name }}"/>
         @error('name')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
     </div>
     <div>
         <label for="color">Color</label>
-        <input type="text" id="color" name="color" value="{{ old('color') }}"/>
+        <input type="text" id="color" name="color" value="{{ $sneaker->color }}"/>
         @error('color')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
@@ -22,5 +23,5 @@
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit">Update</button>
 </form>

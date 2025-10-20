@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Sneaker;
 use Illuminate\Http\Request;
 
@@ -35,28 +36,27 @@ class SneakerController extends Controller
         $sneaker->color = $request->color;
         $sneaker->image = $request->image;
         $sneaker->users_id = 1;
+        $sneaker->brands_id = 1;
         $sneaker->save();
 
         return redirect()->route('sneakers.index');
     }
 
     public function edit($id){
-        $sneaker = Sneaker::find($id);
-
+        $sneaker = Sneaker::findOrFail($id);
         return view('sneakers.edit', compact('sneaker'));
     }
 
     public function update(Request $request, $id){
-        $request->validate([
+        $sneaker = Sneaker::findOrFail($id);
+        $validated = $request->validate([
             'name' => 'required|unique:sneakers|max:255',
             'color' => 'required',
-            'image' => 'required',
+            'image' => '',
         ]);
 
-        $sneaker = Sneaker::find($id);
-        $sneaker->name = $request->name;
-        $sneaker->color = $request->color;
-        $sneaker->image = $request->image;
-        $sneaker->put($request, $id);
+        $sneaker->update($validated);
+
+        return redirect()->route('sneakers.show', $sneaker->id);
     }
 }
