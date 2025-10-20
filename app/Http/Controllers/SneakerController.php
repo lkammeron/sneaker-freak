@@ -52,11 +52,17 @@ class SneakerController extends Controller
         $validated = $request->validate([
             'name' => 'required|unique:sneakers|max:255',
             'color' => 'required',
-            'image' => '',
+            'image' => 'required',
         ]);
 
         $sneaker->update($validated);
 
         return redirect()->route('sneakers.show', $sneaker->id);
+    }
+
+    public function destroy($id){
+        $sneaker = Sneaker::findOrFail($id);
+        $sneaker->delete();
+        return redirect()->route('sneakers.index')->with('success', 'Sneaker successfully deleted');
     }
 }

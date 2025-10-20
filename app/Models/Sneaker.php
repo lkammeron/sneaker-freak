@@ -21,6 +21,11 @@ class Sneaker extends Model
     public function patch(\Illuminate\Http\Request $request, $id)
     {
     }
+
+    public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+    }
 }
 
 
