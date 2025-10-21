@@ -38,8 +38,6 @@ class SneakerController extends Controller
         $sneaker->users_id = 1;
         $sneaker->brands_id = 1;
         $sneaker->save();
-
-
         return redirect()->route('sneakers.index');
     }
 
