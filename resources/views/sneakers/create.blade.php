@@ -1,5 +1,5 @@
 <h1>Create a Sneaker Post</h1>
-<form method="post" action="{{route('sneakers.store')}}">
+<form method="post" action="{{route('sneakers.store')}}" enctype="multipart/form-data">
     @csrf
     <div>
         <label for="name">Name</label>
@@ -16,8 +16,8 @@
         @enderror
     </div>
     <div>
-        <label for="image">image</label>
-        <input type="text" id="image" name="image" value="{{ old('image') }}"/>
+        <label for="image">Choose a sneaker image</label>
+        <input type="file" id="image" name="image" value="{{ old('image') }}" accept="image/png, image/jpeg, image/webp"/>
         @error('image')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror

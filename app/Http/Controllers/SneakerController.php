@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
 use App\Models\Sneaker;
 use Illuminate\Http\Request;
 
@@ -34,10 +33,12 @@ class SneakerController extends Controller
         $sneaker = new Sneaker;
         $sneaker->name = $request->name;
         $sneaker->color = $request->color;
-        $sneaker->image = $request->image;
+        $nameOfFile = $request->file('image')->storePublicly('folder-name', 'public');
+        $sneaker->image = $nameOfFile;
         $sneaker->users_id = 1;
         $sneaker->brands_id = 1;
         $sneaker->save();
+
 
         return redirect()->route('sneakers.index');
     }
@@ -54,9 +55,7 @@ class SneakerController extends Controller
             'color' => 'required',
             'image' => 'required',
         ]);
-
         $sneaker->update($validated);
-
         return redirect()->route('sneakers.show', $sneaker->id);
     }
 
