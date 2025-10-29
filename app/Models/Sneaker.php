@@ -13,18 +13,18 @@ class Sneaker extends Model
         'image',
     ];
 
-    public function sneaker(): void
-    {
-        $this->belongsTo(BrandController::class, 'sneaker_id');
-    }
-
     public function patch(\Illuminate\Http\Request $request, $id)
     {
     }
 
     public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(Brand::class, 'brands_id');
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'users_id');
     }
 }
 

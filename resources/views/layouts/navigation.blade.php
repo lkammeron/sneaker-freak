@@ -12,9 +12,33 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="url('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <x-nav-link :href="url('/admin-dashboard')">
+                                {{ __('Users') }}
+                            </x-nav-link>
+                            <x-nav-link :href="url('/dashboard/overview-sneakers')">
+                                {{ __('Sneakers') }}
+                            </x-nav-link>
+                            <x-nav-link :href="url('/dashboard/brands')">
+                                {{ __('Add Brand') }}
+                            </x-nav-link>
+                        @endif
+                        @if(auth()->user()->isUser())
+                            <x-nav-link :href="route('sneakers.create')" :active="request()->routeIs('sneakers.create')">
+                                {{ __('Create Sneaker') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('sneakers.index')" :active="request()->routeIs('sneakers.index')">
+                                {{ __('Wishlist') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('sneakers.index')" :active="request()->routeIs('sneakers.index')">
+                                {{ __('All Sneakers') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 

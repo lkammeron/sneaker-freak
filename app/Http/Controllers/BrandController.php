@@ -10,7 +10,8 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(){
+    public function index()
+    {
         $brands = Brand::all();
         return view('brands.index', compact('brands'));
     }
@@ -18,9 +19,10 @@ class BrandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id){
+    public function show($id)
+    {
         $brand = brand::find($id);
-        return view('sneakers.show', compact('brand'));
+        return view('brands.show', compact('brand'));
     }
 
     /**
@@ -28,7 +30,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('brands.create');
     }
 
     /**

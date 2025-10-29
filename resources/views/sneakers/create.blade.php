@@ -16,6 +16,17 @@
         @enderror
     </div>
     <div>
+        <label for="brands_id">Brand</label>
+        <select name="brands_id" id="brands_id">
+            @foreach($brands as $brand)
+            <option value="{{$brand->id}}">{{$brand->name}}</option>
+            @endforeach
+        </select>
+        @error('brands')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
+    <div>
         <label for="image">Choose a sneaker image</label>
         <input type="file" id="image" name="image" value="{{ old('image') }}" accept="image/png, image/jpeg, image/webp"/>
         @error('image')
