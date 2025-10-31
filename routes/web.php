@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [SneakerController::class, 'all'])->name('sneakers');
 Route::get('/dashboard/brands', [BrandController::class, 'create'])->name('brands');
+Route::get('/sneakers', [SneakerController::class, 'index'])->name('sneakers.index');
 
 Route::resource('/sneakers', SneakerController::class)->middleware(['auth', 'verified']);
 

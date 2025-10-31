@@ -10,34 +10,54 @@ use Illuminate\Http\Request;
 class SneakerController extends Controller
 {
     //All sneaker view
-    public function index(){
-        $sneakers = Sneaker::all();
-        return view('sneakers.index', compact('sneakers'));
+    public function index(Request $request){
+        $query = Sneaker::query();
+
+        // Zoekfunctie (naam of kleur)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('color', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter op merk
+        if ($request->filled('brand')) {
+            $query->where('brands_id', $request->input('brand'));
+        }
+
+        // Resultaten ophalen
+        $sneakers = $query->get();
+
+        // Alle merken (voor dropdown)
+        $brands = Brand::all();
+
+        return view('sneakers.index', compact('sneakers', 'brands'));
     }
 
-    public function overview(){
+    public function overview()
+    {
         $sneakers = Sneaker::all();
         $users = User::withCount('sneakers')->get();
         return view('overview-sneakers', compact('sneakers'));
     }
 
-    public function all(){
-        $sneakers = Sneaker::all();
-        return view('sneakers.index', compact('sneakers'));
-    }
-
     //Specific sneaker per $id in view
-    public function show($id){
+    public function show($id)
+    {
         $sneaker = Sneaker::find($id);
         return view('sneakers.show', compact('sneaker'));
     }
 
-    public function create(){
+    public function create()
+    {
         $brands = Brand::all();
         return view('sneakers.create', compact('brands'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'name' => 'required|unique:sneakers|max:255',
             'color' => 'required',
@@ -57,12 +77,14 @@ class SneakerController extends Controller
         return redirect()->route('sneakers.index');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $sneaker = Sneaker::findOrFail($id);
         return view('sneakers.edit', compact('sneaker'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $sneaker = Sneaker::findOrFail($id);
         $validated = $request->validate([
             'name' => 'required|unique:sneakers|max:255',
@@ -73,7 +95,8 @@ class SneakerController extends Controller
         return redirect()->route('sneakers.show', $sneaker->id);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $sneaker = Sneaker::findOrFail($id);
         $sneaker->delete();
         return redirect()->route('sneakers.index')->with('success', 'Sneaker successfully deleted');
